@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -18,11 +19,11 @@ class Program
             var responseText = await streamTask;
             return responseText;
         }
-        catch (HttpRequestException e) when (e.Message.Contains("301"))
+        catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.MovedPermanently)
         {
             return "Site Moved";
         }
-        catch (HttpRequestException e) when (e.Message.Contains("404"))
+        catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
         {
             return "Page Not Found";
         }
